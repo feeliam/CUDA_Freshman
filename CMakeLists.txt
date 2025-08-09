@@ -1,6 +1,22 @@
-cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
-Project(CUDA_Freshman CXX C CUDA)
-set(CMAKE_CUDA_FLAGS "-arch=compute_35 -g -G -O3")
+cmake_minimum_required(VERSION 3.20)
+
+Project(CUDA_Freshman LANGUAGES CXX C CUDA)
+# 设置C++标准
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# 查找CUDA
+
+
+if(CMAKE_CUDA_COMPILER)
+    message(STATUS "Find CUDA !")
+    find_package(CUDA REQUIRED)
+    enable_language(CUDA)
+    set(CMAKE_CUDA_ARCHITECTURES 60 61 70 75 80 86 89)  # 支持多种架构
+else()
+    message(FATAL_ERROR "Not found CUDA!")
+endif()
+
+# set(CMAKE_CUDA_FLAGS "-arch=compute_35 -g -G -O3")
 include_directories(./include)
 add_subdirectory(0_hello_world)
 add_subdirectory(1_check_dimension)
